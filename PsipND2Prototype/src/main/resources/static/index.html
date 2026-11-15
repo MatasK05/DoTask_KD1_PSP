@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="lt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DoTask – darbų planavimas</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+<main>
+  <h1>DoTask</h1>
+  <p>Užduotys ir laisvas laikas → apskaičiuotas darbo sesijų grafikas.</p>
+  <section aria-labelledby="context-heading">
+    <h2 id="context-heading">Demonstracinė darbo erdvė</h2>
+    <label>DEMO kliento kontekstas
+      <select id="context"><option value="fakultetas">Fakultetas</option><option value="klubas">Klubas</option></select>
+    </label>
+    <p>Šis pasirinkimas nėra prisijungimas. Klientas yra darbo erdvė, o ne užduotis.</p>
+    <p id="settings"></p>
+    <button id="reset" type="button">Atkurti šio kliento demo pavyzdį</button>
+    <p class="hint">Atkūrimas keičia tik pasirinkto demo konteksto pavyzdį. Jei pridėjote savų įrašų, juos pirmiausia pašalinkite rankiniu būdu.</p>
+  </section>
+  <p id="message" role="status" aria-live="polite"></p>
+  <section aria-labelledby="task-heading">
+    <h2 id="task-heading">Užduotys</h2>
+    <form id="task-form">
+      <input id="task-id" type="hidden">
+      <label>Pavadinimas<input id="title" required maxlength="200"></label>
+      <label>Terminas (Vilniaus laiku)<input id="deadline" type="datetime-local" required></label>
+      <label>Prioritetas<select id="priority"><option value="LOW">Žemas</option><option value="MEDIUM" selected>Vidutinis</option><option value="HIGH">Aukštas</option></select></label>
+      <label>Liko darbo, min.<input id="remaining" type="number" value="60" step="15" required></label>
+      <label class="checkbox"><input id="done" type="checkbox"> Atlikta</label>
+      <div><button type="submit">Išsaugoti užduotį</button> <button id="cancel-task" type="button">Nauja užduotis</button></div>
+    </form>
+    <p class="hint">Neatliktai užduočiai reikia teigiamo 15 min. kartotinio. Atliktai galima nurodyti 0; ji neplanuojama.</p>
+    <div class="table-wrap"><table><thead><tr><th>ID / pavadinimas</th><th>Terminas</th><th>Prioritetas</th><th>Liko, min.</th><th>Būsena</th><th>Veiksmai</th></tr></thead><tbody id="tasks"></tbody></table></div>
+  </section>
+  <section aria-labelledby="availability-heading">
+    <h2 id="availability-heading">Laisvas laikas</h2>
+    <form id="availability-form">
+      <input id="availability-id" type="hidden">
+      <label>Pradžia (Vilniaus laiku)<input id="available-start" type="datetime-local" required></label>
+      <label>Pabaiga (Vilniaus laiku)<input id="available-end" type="datetime-local" required></label>
+      <div><button type="submit">Išsaugoti intervalą</button> <button id="cancel-availability" type="button">Naujas intervalas</button></div>
+    </form>
+    <p class="hint">Laikrodžio keitimo metu dviprasmis ar neegzistuojantis vietinis laikas atmetamas. API leidžia nurodyti aiškų tuo metu galiojantį UTC poslinkį.</p>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Pradžia</th><th>Pabaiga</th><th>Veiksmai</th></tr></thead><tbody id="availability"></tbody></table></div>
+  </section>
+  <section aria-labelledby="planning-heading">
+    <h2 id="planning-heading">Automatinis planavimas</h2>
+    <p><strong>Fiksuotas I etapo pavyzdys:</strong> 2026-10-05 18:00, 3 dienos. Rezultatą apskaičiuoja Java algoritmas.</p>
+    <form id="plan-form">
+      <label>Planavimo pradžia (Vilniaus laiku)<input id="planning-start" type="datetime-local" value="2026-10-05T18:00" required></label>
+      <label>Laikotarpis, dienomis<input id="horizon" type="number" min="1" max="30" value="3" required></label>
+      <button type="submit">Apskaičiuoti / perskaičiuoti</button>
+    </form>
+    <p class="hint">Eilė: ankstesnis terminas → aukštesnis prioritetas → mažesnis ID. Skaičiavimas nekeičia likusio darbo ir nežymi užduočių atliktomis.</p>
+    <p id="schedule-state"></p>
+    <div class="table-wrap"><table><thead><tr><th>Užduotis</th><th>Pradžia</th><th>Pabaiga</th><th>Darbo min.</th></tr></thead><tbody id="sessions"></tbody></table></div>
+    <h3>Nesuplanuotas darbas</h3>
+    <div class="table-wrap"><table><thead><tr><th>Užduotis</th><th>Nesuplanuota, min.</th><th>Paaiškinimas</th></tr></thead><tbody id="unscheduled"></tbody></table></div>
+    <p class="hint">Dalinis grafikas yra normalus rezultatas. Godžioji strategija negarantuoja optimalaus grafiko; kelios priežastys gali veikti kartu.</p>
+  </section>
+</main>
+</body>
+</html>

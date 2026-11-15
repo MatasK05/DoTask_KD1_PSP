@@ -1,0 +1,24 @@
+:root { font-family: system-ui, sans-serif; color: #183044; background: #f3f5f7; }
+body { margin: 0; }
+main { max-width: 1120px; margin: 24px auto; padding: 0 18px 40px; }
+h1 { margin-bottom: 4px; }
+h2 { font-size: 1.3rem; margin-top: 0; }
+section { background: white; border: 1px solid #d9e0e5; border-radius: 6px; padding: 20px; margin: 18px 0; }
+form { display: flex; align-items: end; gap: 12px; flex-wrap: wrap; }
+label { display: flex; flex-direction: column; gap: 5px; font-size: .9rem; }
+input, select, button { font: inherit; padding: 8px; border: 1px solid #9eabb4; border-radius: 4px; }
+input[type=number] { width: 110px; }
+button { background: #e7eff7; color: #163b60; cursor: pointer; }
+button:hover { background: #d4e4f4; }
+button:disabled, input:disabled, select:disabled { opacity: .6; cursor: wait; }
+.checkbox { flex-direction: row; align-items: center; padding-bottom: 8px; }
+.hint { font-size: .88rem; color: #506271; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; text-align: left; }
+th, td { border-bottom: 1px solid #dbe2e7; padding: 10px 8px; vertical-align: top; }
+th { font-size: .9rem; }
+td button { margin: 0 4px 4px 0; padding: 4px 8px; }
+#message:not(:empty) { padding: 12px; background: #e2f1e7; border-left: 4px solid #2f7344; }
+#message.error { background: #fff0ee; border-color: #a33025; color: #8a271e; }
+#schedule-state { font-weight: 600; }
+@media (max-width: 600px) { section { padding: 12px; } form label { width: 100%; } input[type=number] { width: auto; } }
